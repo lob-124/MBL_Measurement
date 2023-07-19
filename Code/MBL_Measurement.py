@@ -1,8 +1,11 @@
 from numpy import eye, kron, zeros, complex64
+from numpy.linalg import eig,eigh,eigvalsh
 from scipy.linalg import expm
 
 from itertools import product
 from functools import reduce
+
+from time import perf_counter
 
 from MBL_SpinChain import SpinChain
 
@@ -133,17 +136,18 @@ class MBL_Measurement:
 		H = chain.get_H(dense=True)
 
 		comm = commutator(H)
-		L = -1j*comm + diss
+		Lind = -1j*comm + self.diss
 
-		evo = proj @ expm(L*self.T)
+		evo = self.proj @ expm(Lind*self.T)
 
-		if self.is_hermitian:
-			eigenvalues , eigenvectors = eigh(evo)
-			return eigenvalues[-num:] , eigenvectors[:,-num:]
-		else:
-			eigenvalues , eigenvectors = eig(evo)
-			indices = abs(eigenvalues).argsort()
-			return eigenvalues[indices[-num:]] , eigenvectors[:,indices[-num:]]
+		
+		# if self.is_hermitian:
+		# 	eigenvalues , eigenvectors = eigh(evo)
+		# 	return eigenvalues[-num:] , eigenvectors[:,-num:]
+		# else:
+		eigenvalues , eigenvectors = eig(evo)
+		indices = abs(eigenvalues).argsort()
+		return eigenvalues[indices[-num:]] , eigenvectors[:,indices[-num:]]
 
 
 	def get_slow_modes_sparse(self,seed,num=2):
