@@ -70,7 +70,7 @@ class SpinChain:
         self.off_diags = [['xx', self._X],['yy',self._Y]]
         
         #Construct the Hamiltonian from the above terms
-        self._Ham = hamiltonian(self.diags+self.off_diags,[],dtype=self.dtype,basis=self.basis)
+        self._Ham = hamiltonian(self.diags+self.off_diags,[],dtype=self.dtype,basis=self.basis,check_symm=False,check_herm=False,check_pcon=False)
         self.H = self._Ham.static
 
         self.energies= None
@@ -87,7 +87,7 @@ class SpinChain:
         """
         Create the Hamiltonian for this Chain.
         """
-        self._Ham = hamiltonian(self.diags+self.off_diags,[],dtype=self.dtype,basis=self.basis)
+        self._Ham = hamiltonian(self.diags+self.off_diags,[],dtype=self.dtype,basis=self.basis,check_symm=False,check_herm=False,check_pcon=False)
         self.H = self._Ham.static
 
 

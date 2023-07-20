@@ -56,7 +56,7 @@ def measurements(projectors):
 	#Each projector P acts as p -> PpP, so we need to select one projector from each measurement 
 	#	and apply them consecutively in this way. We then loop over all possible selections 
 	for tup in product(*projectors):
-		left_op = reduce(lambda a,b: a @ b, tup)
+		left_op = reduce(lambda a,b: b @ a, tup)
 		superop += kron(left_op,left_op.T)
 
 	return superop
@@ -146,6 +146,8 @@ class MBL_Measurement:
 		# 	return eigenvalues[-num:] , eigenvectors[:,-num:]
 		# else:
 		eigenvalues , eigenvectors = eig(evo)
+		print(eigenvalues.dtype)
+		print(eigenvectors.dtype)
 		indices = abs(eigenvalues).argsort()
 		return eigenvalues[indices[-num:]] , eigenvectors[:,indices[-num:]]
 
