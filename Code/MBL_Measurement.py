@@ -5,8 +5,6 @@ from scipy.linalg import expm
 from itertools import product
 from functools import reduce
 
-from time import perf_counter
-
 from MBL_SpinChain import SpinChain
 
 def commutator(H):
@@ -146,8 +144,6 @@ class MBL_Measurement:
 		# 	return eigenvalues[-num:] , eigenvectors[:,-num:]
 		# else:
 		eigenvalues , eigenvectors = eig(evo)
-		print(eigenvalues.dtype)
-		print(eigenvectors.dtype)
 		indices = abs(eigenvalues).argsort()
 		return eigenvalues[indices[-num:]] , eigenvectors[:,indices[-num:]]
 

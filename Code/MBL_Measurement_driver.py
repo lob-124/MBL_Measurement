@@ -54,9 +54,8 @@ if __name__ == "__main__":
 	with Pool(processes=num_threads) as p:
 		for eigenvalues , eigenvectors in p.map(MM_obj.get_slow_modes_dense,range(trials),chunksize=int(ceil(trials/num_threads))):
 			evals.append(eigenvalues[-2])
-			print(eigenvalues[-2])
-			steady_states.append(eigenvectors[-1])
-			slow_modes.append(eigenvectors[-2])
+			steady_states.append(eigenvectors[:,-1])
+			slow_modes.append(eigenvectors[:,-2])
 
 
 	#Save the data
@@ -68,6 +67,7 @@ if __name__ == "__main__":
 
 		for _evec in steady_states:
 			for elem in _evec:
+				i += 1
 				f.write(pack("dd",real(elem),imag(elem)))
 
 		for _evec in slow_modes:
